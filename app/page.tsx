@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from "react";
+import axios from 'axios'
 
 export default function Home() {
   const login: React.FormEventHandler<HTMLFormElement> | undefined = (e) => {
@@ -9,17 +9,11 @@ export default function Home() {
       password: { value: string };
     };
     const data = { username: username.value, password: password.value }
-    
-    fetch('/api/api/auth/login', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    }).then((res) => res.json())
-    .then((data) => {
-      console.log(data)
-    })
+
+    axios.post('/api/api/auth/login', data)
+      .then((data) => {
+        console.log(data)
+      })
   }
   const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -27,12 +21,30 @@ export default function Home() {
       message: { value: string };
     };
     const data = { message: message.value }
-    fetch('/api/api/messages/send/6650efee4abd079ae1c4d591', {
-      method: "POST",
+    axios.post('/api/api/messages/send/6650efee4abd079ae1c4d591', data)
+      .then((data) => {
+        console.log(data)
+      })
+  }
+
+  const getMessages = () => {
+    fetch('/api/api/messages/6650efee4abd079ae1c4d591', {
+      method: "GET",
       headers: {
         'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
+      }
+    }).then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+      })
+  }
+
+  const getUsers = () => {
+    fetch('/api/api/users', {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      }
     }).then((res) => res.json())
       .then((data) => {
         console.log(data)
@@ -49,6 +61,9 @@ export default function Home() {
         <textarea name="message" className="border-black border" />
         <button type="submit" className="border-black border">send</button>
       </form>
+      <button onClick={() => getMessages()}>get messages</button>
+      <br />
+      <button onClick={() => getUsers()}>get users</button>
     </main>
   );
 }
