@@ -27,3 +27,18 @@
   font-family: 'Vazir';
   direction: rtl;
 }
+
+#scroll::-webkit-scrollbar {
+  height: 80%;
+  position: absolute;
+  right: 0;
+  left: 100%;
+  width: 5px;
+  background-color: rgba(216, 216, 216, 0.623);
+  border-radius: 8px;
+}
+
+#scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(77, 77, 77, 0.795);
+  border-radius: 12px;
+}

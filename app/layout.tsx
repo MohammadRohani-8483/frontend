@@ -12,7 +12,7 @@ type Props = Readonly<{
 
 export default async function RootLayout({ children }: Props) {
   return (
-    <html lang="fa" className="overflow-x-hidden">
+    <html lang="fa" className="overflow-x-hidden text-neutral-black">
       <body>{children}</body>
     </html>
   );

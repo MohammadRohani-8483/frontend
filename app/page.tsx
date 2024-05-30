@@ -1,69 +1,33 @@
-'use client'
+import Body from '@/components/page/Body'
+import Header from '@/components/page/Header'
 import axios from 'axios'
+import React from 'react'
+import { cookies } from "next/headers";
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-  const login: React.FormEventHandler<HTMLFormElement> | undefined = (e) => {
-    e.preventDefault()
-    const { username, password } = e.target as typeof e.target & {
-      username: { value: string };
-      password: { value: string };
-    };
-    const data = { username: username.value, password: password.value }
+const Page = async () => {
+  const cookiesStore = cookies()
+  let jwt = cookiesStore.get("jwt") || null
+  !jwt && redirect('/login')
 
-    axios.post('/api/api/auth/login', data)
-      .then((data) => {
-        console.log(data)
-      })
-  }
-  const sendMessage = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const { message } = e.target as typeof e.target & {
-      message: { value: string };
-    };
-    const data = { message: message.value }
-    axios.post('/api/api/messages/send/6650efee4abd079ae1c4d591', data)
-      .then((data) => {
-        console.log(data)
-      })
-  }
-
-  const getMessages = () => {
-    fetch('/api/api/messages/6650efee4abd079ae1c4d591', {
-      method: "GET",
+  let users;
+  try {
+    const res = await axios('http://localhost:8000/api/users', {
+      withCredentials: true,
       headers: {
-        'Content-Type': 'application/json',
+        Cookie: `jwt=${jwt?.value}`
       }
-    }).then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-      })
-  }
-
-  const getUsers = () => {
-    fetch('/api/api/users', {
-      method: "GET",
-      headers: {
-        'Content-Type': 'application/json',
-      }
-    }).then((res) => res.json())
-      .then((data) => {
-        console.log(data)
-      })
+    })
+    users = res.data
+  } catch (error) {
+    console.log('err =>', error);
   }
   return (
-    <main>
-      <form onSubmit={login} className='flex gap-2 mt-4'>
-        <input type="text" name="username" className="border-black border" />
-        <input type="password" name="password" className="border-black border" />
-        <button type="submit" className="border-black border">send</button>
-      </form>
-      <form onSubmit={sendMessage} className='flex gap-2 mt-4'>
-        <textarea name="message" className="border-black border" />
-        <button type="submit" className="border-black border">send</button>
-      </form>
-      <button onClick={() => getMessages()}>get messages</button>
-      <br />
-      <button onClick={() => getUsers()}>get users</button>
+    <main className='flex w-full flex-col h-screen overflow-hidden'>
+      <Header />
+      <Body users={users} />
     </main>
-  );
+  )
 }
+
+export default Page

@@ -24,15 +24,6 @@ const config: Config = {
         },
         "background": "#F4F6FF",
         "neutral": {
-          100: "#FFF",
-          200: "#F9F9F9",
-          300: "#EDEDED",
-          400: "#E3E3E3",
-          500: "#CBCBCB",
-          600: "#ADADAD",
-          700: "#757575",
-          800: "#626262",
-          900: "#353535",
           'black': "#1B1B1B",
         },
         "error": {

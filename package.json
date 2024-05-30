@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/moment-jalaali": "^0.7.9",
     "axios": "^1.7.2",
     "framer-motion": "^11.2.9",
     "next": "14.2.3",
@@ -19,6 +20,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "moment-jalaali": "^0.10.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
