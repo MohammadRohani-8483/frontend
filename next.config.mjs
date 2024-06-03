@@ -3,6 +3,9 @@ const nextConfig = {
     eslint: {
       ignoreDuringBuilds: true,
     },
+    images: {
+      domains: ["avatar.iran.liara.run"],
+    },
     rewrites: async () => [
       {
         source: "/api/:path*",

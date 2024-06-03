@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { memo } from 'react'
 
 type Props = {
     active?: boolean
@@ -9,7 +9,7 @@ type Props = {
     setActive: () => void
 }
 
-const Conversation = (p: Props) => {
+const Conversation = memo((p: Props) => {
     const now = new Date()
     const lastMessateTime = new Date(p.lastMessage.time)
     const diffrence = +now - +lastMessateTime
@@ -47,22 +47,24 @@ const Conversation = (p: Props) => {
         >
             <div className='relative rounded-full aspect-square w-12'>
                 <Image
-                    src='/images/png/user.png'
-                    alt='user'
+                    src={p.profile}
+                    alt={p.fullName}
                     fill
                 />
             </div>
             <div className='w-full flex flex-col'>
                 <div className='w-full flex justify-between items-center'>
                     <p className='font-bold text-sm'>{p.fullName}</p>
-                    <p className='text-[10px] text-gray-500'>
+                    <p className='text-[10px] text-gray-500 font-light'>
                         {time}
                     </p>
                 </div>
-                <p className='text-xs text-gray-500'>{p.lastMessage.message}</p>
+                <p className='text-xs text-gray-500 font-light'>
+                    {p.lastMessage.message}
+                </p>
             </div>
         </div>
     )
-}
+})
 
 export default Conversation

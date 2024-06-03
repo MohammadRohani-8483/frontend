@@ -19,6 +19,7 @@ const RegisterInputs = () => {
             axios.post('/api/api/auth/signup', data)
                 .then((data) => {
                     console.log(data)
+                    location.href = '/'
                 })
                 .catch((err) => console.log(err.response))
         }

@@ -14,6 +14,7 @@ const LoginIputs = () => {
       axios.post('/api/api/auth/login', data)
         .then((res) => {
           console.log(res.data)
+          location.href = '/'
         })
         .catch((err) => console.log(err.response.data))
     }

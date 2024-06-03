@@ -1,5 +1,4 @@
 import Body from '@/components/page/Body'
-import Header from '@/components/page/Header'
 import axios from 'axios'
 import React from 'react'
 import { cookies } from "next/headers";
@@ -24,7 +23,6 @@ const Page = async () => {
   }
   return (
     <main className='flex w-full flex-col h-screen overflow-hidden'>
-      <Header />
       <Body users={users} />
     </main>
   )
