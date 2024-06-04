@@ -2,6 +2,7 @@
 import { FormEvent, useState } from 'react'
 import Input from '@/components/common/Input'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const LoginIputs = () => {
   const [username, setUsername] = useState('')
@@ -12,11 +13,14 @@ const LoginIputs = () => {
     if (username && password) {
       const data = { username, password }
       axios.post('/api/api/auth/login', data)
-        .then((res) => {
+        .then(res => {
           console.log(res.data)
           location.href = '/'
         })
-        .catch((err) => console.log(err.response.data))
+        .catch(err => {
+          console.log(err.response.data)
+          toast.error(err.response.data.error || "مشکلی پیش آمده :(")
+        })
     }
   }
   return (<>

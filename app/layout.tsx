@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +14,13 @@ type Props = Readonly<{
 export default async function RootLayout({ children }: Props) {
   return (
     <html lang="fa" className="overflow-x-hidden text-neutral-black">
-      <body>{children}</body>
+      <body>
+        <Toaster
+          position="top-center"
+          reverseOrder={false}
+        />
+        {children}
+      </body>
     </html>
   );
 }

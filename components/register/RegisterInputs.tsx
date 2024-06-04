@@ -4,6 +4,7 @@ import Input from '@/components/common/Input'
 import Dropdown from '../common/Dropdown'
 import { gender as genders } from '@/data/gender'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const RegisterInputs = () => {
     const [fullName, setFullName] = useState('')
@@ -17,11 +18,14 @@ const RegisterInputs = () => {
         if (fullName && username && password && password === confirm && gender) {
             const data = { fullName, username, password, confirmPassword: confirm, gender: gender?.id }
             axios.post('/api/api/auth/signup', data)
-                .then((data) => {
+                .then(data => {
                     console.log(data)
                     location.href = '/'
                 })
-                .catch((err) => console.log(err.response))
+                .catch(err => {
+                    console.log(err.response.data)
+                    toast.error(err.response.data.error || "مشکلی پیش آمده :(")
+                })
         }
     }
     return (<>
