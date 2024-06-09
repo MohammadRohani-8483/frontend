@@ -6,7 +6,7 @@ import Header from '@/components/page/Header'
 import Messages from '@/components/page/Messages'
 
 type Props = {
-    users: user[]
+    users?: user[]
 }
 
 const Body = ({ users }: Props) => {
@@ -15,7 +15,7 @@ const Body = ({ users }: Props) => {
     const [selectUser, setSelectUser] = useState<user | null>(null)
     const [animateUser, setAnimateUser] = useState(false)
 
-    const searchedUsers = useMemo(() => users.filter((user) => user.fullName.includes(search.trim())), [search])
+    const searchedUsers = useMemo(() => users?.filter((user) => user.fullName.includes(search.trim())), [search])
 
     const setNullUser = () => {
         setAnimateUser(false)
@@ -40,7 +40,7 @@ const Body = ({ users }: Props) => {
                     />
                     <div className='overflow-auto -m-4 p-4 pt-0 mt-3' id='scroll'>
                         <div className='w-full flex flex-col items-center justify-center gap-2'>
-                            {searchedUsers.map(user => (
+                            {searchedUsers?.map(user => (
                                 <Conversation
                                     key={user._id}
                                     lastMessage={{ time: user.updatedAt, message: 'سلام' }}

@@ -9,7 +9,7 @@ const Page = async () => {
   let jwt = cookiesStore.get("jwt") || null
   !jwt && redirect('/login')
 
-  let users;
+  let users, error=false;
   try {
     const res = await axios('http://localhost:8000/api/users', {
       withCredentials: true,
@@ -18,13 +18,19 @@ const Page = async () => {
       }
     })
     users = res.data
+    if (!users) throw ('مشکلی پیش آمده')
   } catch (error) {
+    error = true
     console.log('err =>', error);
   }
+
   return (
     <main className='flex w-full flex-col h-screen overflow-hidden'>
-      <Body users={users} />
-    </main>
+      {error ?
+        "مشکلی پیش آمده"
+        :
+        <Body users={users} />
+      }    </main>
   )
 }
 

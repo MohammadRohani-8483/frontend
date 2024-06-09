@@ -13,7 +13,7 @@ type Props = Readonly<{
 
 export default async function RootLayout({ children }: Props) {
   return (
-    <html lang="fa" className="overflow-x-hidden text-neutral-black">
+    <html lang="fa" className="overflow-x-hidden text-neutral-black select-none">
       <body>
         <Toaster
           position="top-center"
