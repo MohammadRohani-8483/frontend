@@ -1,10 +1,10 @@
-import { Dispatch, MouseEventHandler, SetStateAction } from 'react'
+import { Dispatch, MouseEventHandler, SetStateAction, useContext } from 'react'
 import { motion } from 'framer-motion'
 import { isOpen } from '@/types/common'
 import Image from 'next/image'
-import Link from 'next/link'
 import Icon from '../common/Icon'
 import { closePopup } from '@/functions/common'
+import { Context } from '@/context/Context'
 
 type Props = {
     setIsOpen: Dispatch<SetStateAction<isOpen>>
@@ -23,6 +23,7 @@ type itemProps = {
 }
 
 const MenuItems = ({ isOpen, setIsOpen, openEditPopup, openLogoutPopup }: Props) => {
+    const context = useContext(Context)
     return (
         <motion.div
             animate={isOpen.visible ? { x: 0 } : { x: 320 }}
@@ -34,18 +35,18 @@ const MenuItems = ({ isOpen, setIsOpen, openEditPopup, openLogoutPopup }: Props)
                 <div className='flex gap-3 justify-start '>
                     <div className='relative rounded-full aspect-square w-12'>
                         <Image
-                            src='/images/png/user.png'
+                            src={context?.me?.profilePic!}
                             alt='user'
                             fill
                         />
                     </div>
                     <div className='flex flex-col gap-1'>
                         <p className='font-bold text-lg'>
-                            محمد روحانی
+                            {context?.me?.fullName}
                         </p>
                         <div className='flex gap-1 items-center'>
                             <p className='text-xs text-gray-500 font-light'>
-                                Moha8483
+                                {context?.me?.username}
                             </p>
                         </div>
                     </div>

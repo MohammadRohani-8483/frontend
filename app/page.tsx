@@ -9,7 +9,7 @@ const Page = async () => {
   let jwt = cookiesStore.get("jwt") || null
   !jwt && redirect('/login')
 
-  let users, error=false;
+  let users = null, me = null, error = false;
   try {
     const res = await axios('http://localhost:8000/api/users', {
       withCredentials: true,
@@ -23,13 +23,27 @@ const Page = async () => {
     error = true
     console.log('err =>', error);
   }
+  try {
+    const res = await axios('http://localhost:8000/api/me', {
+      withCredentials: true,
+      headers: {
+        Cookie: `jwt=${jwt?.value}`
+      }
+    })
+    me = res.data.user
+
+    if (!users) throw ('مشکلی پیش آمده')
+  } catch (error) {
+    error = true
+    console.log('err =>', error);
+  }
 
   return (
     <main className='flex w-full flex-col h-screen overflow-hidden'>
       {error ?
         "مشکلی پیش آمده"
         :
-        <Body users={users} />
+        <Body users={users} me={me} />
       }    </main>
   )
 }

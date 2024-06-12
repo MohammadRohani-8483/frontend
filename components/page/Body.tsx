@@ -1,15 +1,19 @@
 'use client'
 import { user } from '@/types/user'
-import { useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import Conversation from '@/components/page/Conversation'
 import Header from '@/components/page/Header'
 import Messages from '@/components/page/Messages'
+import { Context, Me } from '@/context/Context'
 
 type Props = {
     users?: user[]
+    me: Me
 }
 
-const Body = ({ users }: Props) => {
+const Body = ({ users, me }: Props) => {
+    const { setMe } = useContext(Context)
+
     const [search, setSearch] = useState<string>('')
 
     const [selectUser, setSelectUser] = useState<user | null>(null)
@@ -26,6 +30,11 @@ const Body = ({ users }: Props) => {
         setSelectUser(user)
         setAnimateUser(true)
     }
+
+    useEffect(() => {
+        me && setMe(me)
+    }, [])
+
     return (
         <div className='relative flex items-center justify-center h-screen'>
             <div className='w-full sm:w-2/3 h-full'>

@@ -1,14 +1,18 @@
 import { user } from '@/types/user'
 import Image from 'next/image'
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction, useContext, useMemo } from 'react'
 import Icon from '@/components/common/Icon'
+import { Context } from '@/context/Context'
 
 type Props = {
-    user: user | null
+    user: user
     setNull: () => void
 }
 
 const HeaderUser = ({ user, setNull }: Props) => {
+    const { onlineUsers } = useContext(Context)
+    const isOnline = useMemo(() => onlineUsers.includes(user?._id), [onlineUsers, user])
+    
     return (
         <div className='flex justify-between items-center w-full p-3.5 border-b border-gray-100 bg-white'>
             <div className='flex gap-3 justify-center'>
@@ -24,9 +28,9 @@ const HeaderUser = ({ user, setNull }: Props) => {
                         {user?.fullName || "محمد روحانی"}
                     </p>
                     <div className='flex gap-1 items-center'>
-                        <div className='size-2.5 bg-[#68D391] rounded-full' />
+                        <div className={`size-2.5 ${isOnline ? "bg-[#68D391]" : "bg-gray-500"} rounded-full`} />
                         <p className='text-xs text-gray-500 font-light'>
-                            آنلاین
+                            {isOnline ? "آنلاین" : "آفلاین"}
                         </p>
                     </div>
                 </div>

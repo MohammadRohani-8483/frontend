@@ -25,19 +25,16 @@ const Menu = memo(() => {
                 </>
             }
             {editPopup.open &&
-                <>
-                    {/* <BackgroundPopup isOpen={editPopup} setIsOpen={setEditPopup} zIndex={15} /> */}
-                    <Alert
-                        isOpen={editPopup}
-                        setIsOpen={setEditPopup}
-                        title='ویرایش اطلاعات'
-                        zIndex={15}
-                    >
-                        <p className='text-neutral-800 w-full text-right'>
-                            برای سفارش و مشاهده سبد خرید بایستی وارد حساب خود باشید
-                        </p>
-                    </Alert>
-                </>
+                <Alert
+                    isOpen={editPopup}
+                    setIsOpen={setEditPopup}
+                    title='ویرایش اطلاعات'
+                    zIndex={15}
+                >
+                    <p className='text-neutral-800 w-full text-right'>
+                        برای سفارش و مشاهده سبد خرید بایستی وارد حساب خود باشید
+                    </p>
+                </Alert>
             }
             {logoutPopup.open &&
                 <>
