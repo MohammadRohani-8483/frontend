@@ -5,8 +5,8 @@ import { cookies } from "next/headers";
 
 const LoginPage = () => {
     const cookiesStore = cookies()
-    let jwt = cookiesStore.get("jwt") || null
-    jwt && redirect('/')
+    let access = cookiesStore.get("access_chat") || null
+    access && redirect('/')
 
     return (
         <main className='flex justify-center items-center h-screen gap-8 flex-col w-4/5 max-w-96 mx-auto'>

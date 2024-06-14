@@ -1,9 +1,9 @@
 'use client'
 import { user } from '@/types/user'
 import { useContext, useEffect, useMemo, useState } from 'react'
-import Conversation from '@/components/page/Conversation'
+import Conversations from '@/components/page/Conversations'
 import Header from '@/components/page/Header'
-import Messages from '@/components/page/Messages'
+import Conversation from '@/components/page/Conversation'
 import { Context, Me } from '@/context/Context'
 
 type Props = {
@@ -50,7 +50,7 @@ const Body = ({ users, me }: Props) => {
                     <div className='overflow-auto -m-4 p-4 pt-0 mt-3' id='scroll'>
                         <div className='w-full flex flex-col items-center justify-center gap-2'>
                             {searchedUsers?.map(user => (
-                                <Conversation
+                                <Conversations
                                     key={user._id}
                                     lastMessage={{ time: user.updatedAt, message: 'سلام' }}
                                     active={selectUser?._id === user._id}
@@ -63,7 +63,7 @@ const Body = ({ users, me }: Props) => {
                     </div>
                 </div>
             </div>
-            <Messages user={selectUser} setNull={setNullUser} animate={animateUser} />
+            <Conversation user={selectUser} setNull={setNullUser} animate={animateUser} />
         </div>
     )
 }

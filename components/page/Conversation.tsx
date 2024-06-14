@@ -1,70 +1,58 @@
-import Image from 'next/image'
-import React, { memo } from 'react'
+import { user } from '@/types/user'
+import HeaderUser from '@/components/page/HeaderUser'
+import Icon from '@/components/common/Icon'
+import Messages from '@/components/page/Messages'
+import { FormEvent, useState } from 'react'
+import axios from 'axios'
+import { errorHandler } from '@/functions/errorHandler'
 
 type Props = {
-    active?: boolean
-    lastMessage: { time: string, message: string }
-    fullName: string
-    profile: string
-    setActive: () => void
+    user: user | null
+    setNull: () => void
+    animate: boolean
 }
 
-const Conversation = memo((p: Props) => {
-    const now = new Date()
-    const lastMessateTime = new Date(p.lastMessage.time)
-    const diffrence = +now - +lastMessateTime
-    const diff = {
-        year: Math.floor(diffrence / 1000 / 60 / 60 / 24 / 365),
-        month: Math.floor(diffrence / 1000 / 60 / 60 / 24 / 30),
-        week: Math.floor(diffrence / 1000 / 60 / 60 / 24 / 7),
-        day: Math.floor(diffrence / 1000 / 60 / 60 / 24),
-        hour: Math.floor(diffrence / 1000 / 60 / 60),
-        minute: Math.floor(diffrence / 1000 / 60),
+const Conversation = ({ user, setNull, animate }: Props) => {
+    const [mutate, setMutate] = useState(false)
+
+    const sendMessage = (e: FormEvent<HTMLFormElement> & { target: HTMLFormElement }) => {
+        e.preventDefault()
+        const message = e.target.message.value
+        console.log(message);
+        user && message.length &&
+            axios.post(`/api/api/messages/send/${user._id}`, { message })
+                .then(res => {
+                    console.log(res)
+                    setMutate(p => !p)
+                    e.target.message.value = ''
+                })
+                .catch(err => errorHandler(err.response))
     }
-    const time = diff.year ?
-        `${diff.year} سال پیش`
-        :
-        diff.month ?
-            `${diff.month} ماه پیش`
-            :
-            diff.week ?
-                `${diff.week} هفته پیش`
-                :
-                diff.day ?
-                    `${diff.day} روز پیش`
-                    :
-                    diff.hour ?
-                        `${diff.hour} ساعت پیش`
-                        :
-                        diff.minute ?
-                            `${diff.minute} دقیقه پیش`
-                            :
-                            `لحظاتی پیش`
     return (
-        <div
-            onClick={() => p.setActive()}
-            className={`w-full flex justify-start items-center p-3 gap-4 ${p.active ? "bg-gray-100" : ""} hover:bg-gray-100 transition-all duration-300 rounded-2xl cursor-pointer`}
-        >
-            <div className='relative rounded-full aspect-square w-12'>
-                <Image
-                    src={p.profile}
-                    alt={p.fullName}
-                    fill
-                />
-            </div>
-            <div className='w-full flex flex-col'>
-                <div className='w-full flex justify-between items-center'>
-                    <p className='font-bold text-sm'>{p.fullName}</p>
-                    <p className='text-[10px] text-gray-500 font-light'>
-                        {time}
-                    </p>
-                </div>
-                <p className='text-xs text-gray-500 font-light'>
-                    {p.lastMessage.message}
-                </p>
-            </div>
+        <div className={`fixed flex flex-col items-center justify-center text-lg top-0 left-0 h-screen w-screen sm:w-full sm:static bg-white sm:border-r border-gray-100 bg-gray-50 ${!animate ? "translate-x-full" : ""} sm:translate-x-0 transition-all duration-300`}>
+            {user ?
+                <>
+                    <HeaderUser user={user} setNull={setNull} />
+                    <Messages mutate={mutate} user={user} />
+                    <div className='p-2 sm:p-4 md:p-6 w-full'>
+                        <form onSubmit={sendMessage} className='border border-gray-300 w-full px-4 py-2 rounded-xl flex items-center h-12'>
+                            <input
+                                type="text"
+                                name="message"
+                                placeholder='پیام خود را تایپ کنید'
+                                className="outline-none w-full h-full"
+                            />
+                            <button type='submit'>
+                                <Icon nameIcon='send' size={24} />
+                            </button>
+                        </form>
+                    </div>
+                </>
+                :
+                "لطفا یک گفتگو رو برای شروع پیام دادن انتخاب کنید"
+            }
         </div>
     )
-})
+}
 
 export default Conversation

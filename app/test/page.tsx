@@ -27,7 +27,7 @@ export default function Home() {
       message: { value: string };
     };
     const data = { message: message.value }
-    fetch('/api/api/messages/send/6650efee4abd079ae1c4d591', {
+    fetch('/api/api/messages/send/6650efaa4abd079ae1c4d58d', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
@@ -50,16 +50,27 @@ export default function Home() {
         console.log(data)
       })
   }
+  const getMessages=()=>{
+    fetch('/api/api/messages/6650efaa4abd079ae1c4d58d', {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).then((res) => res.json())
+      .then((data) => {
+        console.log(data)
+      })
+  }
   return (
     <main>
       <form onSubmit={login} className='flex gap-2 mt-4'>
         <input type="text" name="username" className="border-black border" />
         <input type="password" name="password" className="border-black border" />
-        <button type="submit" className="border-black border">send</button>
+        <button type="submit" className="border-black border">login</button>
       </form>
       <form onSubmit={sendMessage} className='flex gap-2 mt-4'>
         <textarea name="message" className="border-black border" />
-        <button type="submit" className="border-black border">send</button>
+        <button type="submit" className="border-black border">send message</button>
       </form>
       <br />
       <button 
@@ -67,6 +78,12 @@ export default function Home() {
         onClick={() => getUsers()}
       >
         get users
+      </button>
+      <button 
+      className='border border-black p-2'
+        onClick={() => getMessages()}
+      >
+        get messages
       </button>
     </main>
   );

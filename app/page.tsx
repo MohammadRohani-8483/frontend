@@ -6,15 +6,15 @@ import { redirect } from 'next/navigation';
 
 const Page = async () => {
   const cookiesStore = cookies()
-  let jwt = cookiesStore.get("jwt") || null
-  !jwt && redirect('/login')
+  let access = cookiesStore.get("access_chat") || null
+  !access && redirect('/login')
 
   let users = null, me = null, error = false;
   try {
     const res = await axios('http://localhost:8000/api/users', {
       withCredentials: true,
       headers: {
-        Cookie: `jwt=${jwt?.value}`
+        Cookie: `access_chat=${access?.value}`
       }
     })
     users = res.data
@@ -27,7 +27,7 @@ const Page = async () => {
     const res = await axios('http://localhost:8000/api/me', {
       withCredentials: true,
       headers: {
-        Cookie: `jwt=${jwt?.value}`
+        Cookie: `access_chat=${access?.value}`
       }
     })
     me = res.data.user
@@ -44,7 +44,8 @@ const Page = async () => {
         "مشکلی پیش آمده"
         :
         <Body users={users} me={me} />
-      }    </main>
+      }
+    </main>
   )
 }
 

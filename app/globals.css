@@ -42,3 +42,7 @@
   background-color: rgba(77, 77, 77, 0.795);
   border-radius: 12px;
 }
+
+.ltr{
+  direction: ltr;
+}
